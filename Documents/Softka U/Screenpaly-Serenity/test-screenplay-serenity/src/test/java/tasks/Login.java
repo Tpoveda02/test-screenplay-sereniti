@@ -4,7 +4,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.annotations.Steps;
-import tasks.steps.LoginSteps;
+import stepsdefinitions.steps.LoginSteps;
 
 
 public class Login implements Task {

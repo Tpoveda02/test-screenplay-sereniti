@@ -1,4 +1,4 @@
-package tasks.steps;
+package stepsdefinitions.steps;
 
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.screenplay.Actor;
