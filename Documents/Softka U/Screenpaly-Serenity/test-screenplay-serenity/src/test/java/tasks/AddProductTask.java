@@ -15,14 +15,13 @@ public class AddProductTask implements Task {
         this.productName = productName;
     }
 
-    @Step("agrega al carrito el producto {0}")
+    @Step("agrega al carrito el producto #productName")
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 Click.on(BTN_ADD_PRODUCT_INTO_CART.of(productName))
         );
     }
-
     public static AddProductTask addProduct(String productName){
         return Tasks.instrumented(AddProductTask.class, productName);
     }

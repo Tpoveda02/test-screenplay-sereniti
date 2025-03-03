@@ -5,7 +5,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import net.serenitybdd.annotations.Steps;
 import net.serenitybdd.screenplay.GivenWhenThen;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.waits.WaitUntil;
@@ -17,7 +16,10 @@ import static constants.Constants.ACTOR;
 import static constants.Constants.WEB_URL;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static questions.RemovedProductQuestion.verifyIfRemovedProduct;
 import static tasks.Login.loginWithCredentials;
+import static tasks.RemoveProductTask.removeProduct;
+import static userinterface.CartPage.PRODUCT_NAMES_CART;
 import static userinterface.PageProduct.PRODUCT_NAMES;
 
 public class MakeShoppingCart {
@@ -39,10 +41,7 @@ public class MakeShoppingCart {
     @When("ordena los productos por {string}")
     public void ordenaLosProductosPor(String sort) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-                SortTask.by(sort)
-        );
-
-        OnStage.theActorInTheSpotlight().attemptsTo(
+                SortTask.by(sort),
                 WaitUntil.the(PRODUCT_NAMES, isVisible()).forNoMoreThan(5).seconds()
         );
 
@@ -78,7 +77,16 @@ public class MakeShoppingCart {
     }
 
     @And("elimina el producto {string} del carrito")
-    public void eliminaElProductoDelCarrito(String arg0) {
+    public void eliminaElProductoDelCarrito(String productName) {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                removeProduct(productName),
+                WaitUntil.the(PRODUCT_NAMES_CART, isVisible()).forNoMoreThan(5).seconds()
+        );
+
+        OnStage.theActorInTheSpotlight().should(
+                GivenWhenThen.seeThat("El producto NO está en la lista", verifyIfRemovedProduct(productName), equalTo(true))
+        );
+
     }
 
     @And("procede al checkout")

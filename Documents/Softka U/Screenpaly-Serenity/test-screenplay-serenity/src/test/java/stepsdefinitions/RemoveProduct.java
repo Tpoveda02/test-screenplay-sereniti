@@ -6,8 +6,8 @@ import net.serenitybdd.screenplay.GivenWhenThen;
 import net.serenitybdd.screenplay.actors.OnStage;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static questions.RemovedProduct.verifyIfRemovedProduct;
-import static tasks.RemoveProduct.removeProduct;
+import static questions.RemovedProductQuestion.verifyIfRemovedProduct;
+import static tasks.RemoveProductTask.removeProduct;
 
 public class RemoveProduct {
     @And("remueve el producto {string}")
