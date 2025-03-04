@@ -10,6 +10,7 @@ import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 import questions.AddProductQuestion;
 import questions.OrderProductsQuestion;
+import questions.SentCheckoutQuestion;
 import tasks.*;
 
 import static constants.Constants.ACTOR;
@@ -58,13 +59,11 @@ public class MakeShoppingCart {
     public void agregaLosProductosYAlCarrito(String product1, String product2) {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 AddProductTask.addProduct(product1),
-                AddProductTask.addProduct(product2)
-        );
-
-        OnStage.theActorInTheSpotlight().attemptsTo(
+                AddProductTask.addProduct(product2),
                 GoToCartTask.goToCart(),
                 WaitUntil.the(PRODUCT_NAMES, isVisible()).forNoMoreThan(5).seconds()
         );
+
         OnStage.theActorInTheSpotlight().should(
                 GivenWhenThen.seeThat("El producto " + product1 + " está en la lista",
                         AddProductQuestion.verifyIfAddedProduct(product1), equalTo(true))
@@ -89,18 +88,24 @@ public class MakeShoppingCart {
 
     }
 
-    @And("procede al checkout")
-    public void procedeAlCheckout() {
+    @And("realiza la compra con información {string}, {string}, {string} y un total ${string}")
+    public void realizaLaCompraConInformaciónYUnTotal$(String firstName, String lastName, String postalCode, String totalPrice) {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                GoToFormCheckoutTask.goToFormCheckout(),
+                SendFormCheckoutTask.sendFormCheckout(firstName, lastName, postalCode)
+        );
+        OnStage.theActorInTheSpotlight().should(
+                GivenWhenThen.seeThat("El precio total de la compra sería $" + totalPrice,
+                        SentCheckoutQuestion.verifyTotalPrice(totalPrice), equalTo(true))
+        );
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                GoToFinishTask.goToFinish()
+        );
+
     }
 
-    @And("realiza la compra con información nombre {string}, apellido {string} y código postal {string}")
-    public void realizaLaCompraConInformaciónNombreApellidoYCódigoPostal(String arg0, String arg1, String arg2) {
+
+    @Then("debería ver el mensaje de confirmación de pedido {string}")
+    public void deberíaVerElMensajeDeConfirmaciónDePedido(String message) {
     }
-
-    @Then("debería ver un mensaje de confirmación de pedido")
-    public void deberíaVerUnMensajeDeConfirmaciónDePedido() {
-    }
-
-
-
 }

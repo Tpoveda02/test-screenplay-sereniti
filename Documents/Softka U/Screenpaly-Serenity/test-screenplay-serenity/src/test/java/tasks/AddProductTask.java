@@ -15,7 +15,7 @@ public class AddProductTask implements Task {
         this.productName = productName;
     }
 
-    @Step("agrega al carrito el producto #productName")
+    @Step("{0} agrega al carrito el producto #productName")
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(

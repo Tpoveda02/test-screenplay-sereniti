@@ -14,5 +14,7 @@ public class CartPage extends PageObject {
     public static final Target BTN_REMOVE_PRODUCT_FROM_CART = Target.the("Botón para agregar el producto '{0}' al carrito")
             .locatedBy("//div[contains(@class, 'cart_item')][.//div[contains(@class, 'inventory_item_name') and text()='{0}']]//button[contains(@class, 'cart_button')]");
 
+    public static final Target LINK_GO_FORM_CHECKOUT = Target.the("Enlace hacia el forumalario de la información de {0}")
+            .locatedBy("//a[href='./checkout-step-one.html']");
 
 }
