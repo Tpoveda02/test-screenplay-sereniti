@@ -13,33 +13,33 @@ import questions.OrderProductsQuestion;
 import questions.SentCheckoutQuestion;
 import tasks.*;
 
-import static constants.Constants.ACTOR;
-import static constants.Constants.WEB_URL;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static questions.RemovedProductQuestion.verifyIfRemovedProduct;
-import static tasks.Login.loginWithCredentials;
-import static tasks.RemoveProductTask.removeProduct;
-import static userinterface.CartPage.PRODUCT_NAMES_CART;
-import static userinterface.PageProduct.PRODUCT_NAMES;
+
+import static constants.Constants.ACTOR;
+import static constants.Constants.WEB_URL;
+import static userinterface.CartPage.*;
+import static userinterface.CheckoutOverviewPage.LINK_GO_FINISH_CHECKOUT;
+import static userinterface.ProductPage.*;
 
 public class MakeShoppingCart {
 
-    @Given("un usuario se encuentra en la página de inicio de sesión")
-    public void unUsuarioSeEncuentraEnLaPáginaDeInicioDeSesión() {
+    @Given("un usuario se ingresó a la página de login")
+    public void unUsuarioSeIngresóALaPáginaDeLogin() {
         OnStage.theActorCalled(ACTOR).attemptsTo(
                 OpenBrowser.openBrowser(WEB_URL)
         );
     }
-    @And("se autentica con credenciales válidas")
-    public void seAutenticaConCredencialesVálidas() {
+
+    @When("ingresa sus credenciales válidas: usuario {string} y contraseña {string}")
+    public void ingresaSusCredencialesVálidasUsuarioYContraseña(String userName, String password) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-                loginWithCredentials("standard_user", "secret_sauce")
+                LoginTask.withCredentials(userName, password)
         );
     }
 
-
-    @When("ordena los productos por {string}")
+    @And("ordena los productos por {string}")
     public void ordenaLosProductosPor(String sort) {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 SortTask.by(sort),
@@ -60,7 +60,7 @@ public class MakeShoppingCart {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 AddProductTask.addProduct(product1),
                 AddProductTask.addProduct(product2),
-                GoToCartTask.goToCart(),
+                GoToOtherPage.on(LINK_GO_CART, "se dirige al carrito de compras"),
                 WaitUntil.the(PRODUCT_NAMES, isVisible()).forNoMoreThan(5).seconds()
         );
 
@@ -78,7 +78,7 @@ public class MakeShoppingCart {
     @And("elimina el producto {string} del carrito")
     public void eliminaElProductoDelCarrito(String productName) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-                removeProduct(productName),
+                RemoveProductTask.removeProduct(productName),
                 WaitUntil.the(PRODUCT_NAMES_CART, isVisible()).forNoMoreThan(5).seconds()
         );
 
@@ -91,7 +91,7 @@ public class MakeShoppingCart {
     @And("realiza la compra con información {string}, {string}, {string} y un total ${string}")
     public void realizaLaCompraConInformaciónYUnTotal$(String firstName, String lastName, String postalCode, String totalPrice) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-                GoToFormCheckoutTask.goToFormCheckout(),
+                GoToOtherPage.on(LINK_GO_FORM_CHECKOUT, "se dirige al formulario para completar su información"),
                 SendFormCheckoutTask.sendFormCheckout(firstName, lastName, postalCode)
         );
         OnStage.theActorInTheSpotlight().should(
@@ -99,7 +99,7 @@ public class MakeShoppingCart {
                         SentCheckoutQuestion.verifyTotalPrice(totalPrice), equalTo(true))
         );
         OnStage.theActorInTheSpotlight().attemptsTo(
-                GoToFinishTask.goToFinish()
+                GoToOtherPage.on(LINK_GO_FINISH_CHECKOUT, "finaliza la compra")
         );
 
     }
@@ -108,4 +108,6 @@ public class MakeShoppingCart {
     @Then("debería ver el mensaje de confirmación de pedido {string}")
     public void deberíaVerElMensajeDeConfirmaciónDePedido(String message) {
     }
+
+
 }

@@ -7,12 +7,12 @@ import net.serenitybdd.screenplay.Actor;
 
 import java.util.*;
 
-import static userinterface.PageProduct.PRODUCT_NAMES;
+import static userinterface.ProductPage.PRODUCT_NAMES;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import static userinterface.PageProduct.PRODUCT_PRICES;
+import static userinterface.ProductPage.PRODUCT_PRICES;
 
 public class OrderProductsQuestion implements Question<Boolean> {
 

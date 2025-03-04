@@ -6,7 +6,7 @@ import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
 
-import static userinterface.PageProduct.*;
+import static userinterface.ProductPage.*;
 
 public class AddProductTask implements Task {
     private String productName;

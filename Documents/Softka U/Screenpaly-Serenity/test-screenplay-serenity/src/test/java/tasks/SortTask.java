@@ -6,7 +6,7 @@
     import net.serenitybdd.screenplay.Tasks;
     import net.serenitybdd.screenplay.actions.SelectFromOptions;
 
-    import static userinterface.PageProduct.SORT_DROPDOWN;
+    import static userinterface.ProductPage.SORT_DROPDOWN;
 
     public class SortTask implements Task {
         private String sort;
@@ -15,7 +15,7 @@
             this.sort = sort;
         }
 
-        @Step("El usuario selecciona el criterio de ordenamiento")
+        @Step("{0} selecciona el criterio de ordenamiento")
         @Override
         public <T extends Actor> void performAs(T actor) {
             actor.attemptsTo(

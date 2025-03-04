@@ -11,5 +11,5 @@ public class CheckoutOverviewPage extends PageObject {
 
 
     public static final Target LINK_GO_FINISH_CHECKOUT = Target.the("Enlace para finalizar la compra")
-            .locatedBy("//a[href='./checkout-complete.html']");
+            .locatedBy("//a[@href='./checkout-complete.html']");
 }

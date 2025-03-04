@@ -3,7 +3,7 @@ package userinterface;
 import net.serenitybdd.screenplay.targets.Target;
 import net.thucydides.core.pages.PageObject;
 
-public class PageLogin extends PageObject {
+public class LoginPage extends PageObject {
     public static final Target FIELD_USERNAME = Target.the("Caja de nombre de usuario")
             .locatedBy("//input[@data-test='username']");
 

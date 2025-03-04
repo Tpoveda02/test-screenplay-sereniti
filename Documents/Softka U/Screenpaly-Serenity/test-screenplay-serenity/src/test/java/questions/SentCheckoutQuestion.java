@@ -12,8 +12,8 @@ public class SentCheckoutQuestion implements Question<Boolean> {
     public SentCheckoutQuestion(String priceTotal) {
         this.priceTotal = priceTotal;
     }
-    public static SentCheckoutQuestion verifyTotalPrice(String nameProduct) {
-        return new SentCheckoutQuestion(nameProduct);
+    public static SentCheckoutQuestion verifyTotalPrice(String priceTotal) {
+        return new SentCheckoutQuestion(priceTotal);
     }
 
     @Step("{0} visualizará el precio #priceTotal por la compra")
