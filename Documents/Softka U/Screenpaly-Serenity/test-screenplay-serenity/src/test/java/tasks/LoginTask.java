@@ -6,6 +6,8 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.Tasks;
 import tasks.steps.LoginSteps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginTask implements Task {
 
@@ -15,6 +17,8 @@ public class LoginTask implements Task {
     @Steps
     LoginSteps loginSteps;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginTask.class);
+
     public LoginTask(String userName, String password) {
         this.userName = userName;
         this.password = password;
@@ -23,6 +27,7 @@ public class LoginTask implements Task {
     @Step("{0} intenta iniciar sesión con usuario #userName y contraseña #password")
     @Override
     public <T extends Actor> void performAs(T actor) {
+        LOGGER.info("{} intenta iniciar sesión con usuario: {}", actor.getName(), userName);
         loginSteps.enterUsername(actor, userName);
         loginSteps.enterPassword(actor, password);
         loginSteps.clickLoginButton(actor);

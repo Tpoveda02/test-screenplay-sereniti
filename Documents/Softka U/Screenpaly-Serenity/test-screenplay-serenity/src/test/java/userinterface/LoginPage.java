@@ -13,4 +13,6 @@ public class LoginPage extends PageObject {
     public static final Target SUBMIT_LOGIN = Target.the("Botón de login")
             .locatedBy("//input[@type='submit']");
 
+    public static final Target MESSAGE_ERROR = Target.the("Mensaje de error")
+            .locatedBy("//h3[@data-test='error']");
 }

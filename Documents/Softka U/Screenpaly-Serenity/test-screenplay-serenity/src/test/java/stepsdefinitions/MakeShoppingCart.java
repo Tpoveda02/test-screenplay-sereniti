@@ -9,6 +9,7 @@ import net.serenitybdd.screenplay.GivenWhenThen;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 import questions.AddProductQuestion;
+import questions.MessageQuestion;
 import questions.OrderProductsQuestion;
 import questions.SentCheckoutQuestion;
 import tasks.*;
@@ -21,6 +22,7 @@ import static constants.Constants.ACTOR;
 import static constants.Constants.WEB_URL;
 import static userinterface.CartPage.*;
 import static userinterface.CheckoutOverviewPage.LINK_GO_FINISH_CHECKOUT;
+import static userinterface.FinishCheckoutPage.MESSAGE_COMPLETE;
 import static userinterface.ProductPage.*;
 
 public class MakeShoppingCart {
@@ -66,7 +68,8 @@ public class MakeShoppingCart {
 
         OnStage.theActorInTheSpotlight().should(
                 GivenWhenThen.seeThat("El producto " + product1 + " está en la lista",
-                        AddProductQuestion.verifyIfAddedProduct(product1), equalTo(true))
+                        AddProductQuestion.verifyIfAddedProduct(product1), equalTo(true)
+                )
         );
 
         OnStage.theActorInTheSpotlight().should(
@@ -88,14 +91,14 @@ public class MakeShoppingCart {
 
     }
 
-    @And("realiza la compra con información {string}, {string}, {string} y un total ${string}")
+    @And("realiza la compra con información {string}, {string}, {string} y un total {string}")
     public void realizaLaCompraConInformaciónYUnTotal$(String firstName, String lastName, String postalCode, String totalPrice) {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 GoToOtherPage.on(LINK_GO_FORM_CHECKOUT, "se dirige al formulario para completar su información"),
                 SendFormCheckoutTask.sendFormCheckout(firstName, lastName, postalCode)
         );
         OnStage.theActorInTheSpotlight().should(
-                GivenWhenThen.seeThat("El precio total de la compra sería $" + totalPrice,
+                GivenWhenThen.seeThat("El precio total de la compra sería " + totalPrice,
                         SentCheckoutQuestion.verifyTotalPrice(totalPrice), equalTo(true))
         );
         OnStage.theActorInTheSpotlight().attemptsTo(
@@ -104,9 +107,12 @@ public class MakeShoppingCart {
 
     }
 
-
     @Then("debería ver el mensaje de confirmación de pedido {string}")
     public void deberíaVerElMensajeDeConfirmaciónDePedido(String message) {
+        OnStage.theActorInTheSpotlight().should(
+                GivenWhenThen.seeThat("El mensaje de confirmación sería " + message,
+                        MessageQuestion.verifyContentOfMessage(message, MESSAGE_COMPLETE), equalTo(true))
+        );
     }
 
 
